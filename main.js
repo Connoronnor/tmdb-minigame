@@ -1,9 +1,20 @@
 const TMDB_API_KEY = "eee0d7fd55c9dc0f1acae8b62e5c415d";
+const options = {
+  method: 'GET',
+  headers: {
+    accept: 'application/json',
+    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlZWUwZDdmZDU1YzlkYzBmMWFjYWU4YjYyZTVjNDE1ZCIsIm5iZiI6MTc2NDE4NTY2My40MDk5OTk4LCJzdWIiOiI2OTI3NTYzZmVlZGNhMjQ3MGUyNDhjMTEiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.kDbi9DlvGTAJdxM0iTNc5I3_l0Sa3-4xgc8C6jgtBUQ'
+  }
+};
+
+
 
 // Utility: fetch JSON from TMDB
 async function tmdb(path) {
-  const url = `https://api.themoviedb.org/3${path}?api_key=${TMDB_API_KEY}`;
-  const response = await fetch(url);
+  const response = await fetch('https://api.themoviedb.org/3/person/popular?language=en-US&page=1', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
   return response.json();
 }
 

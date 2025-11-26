@@ -1,1 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>TMDB API Test</title>
+
+  <!-- Purpose:
+       We keep styling small here; this is an API connectivity test page,
+       not the final game. -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    pre {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 5px;
+      overflow: auto;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>TMDB API Test Page</h1>
+
+  <p>
+    This page sends a simple test request to TMDB's API to confirm that:
+  </p>
+  <ul>
+    <li>The API key is correct</li>
+    <li>The GitHub Pages domain is properly whitelisted in TMDB</li>
+    <li>The browser can fetch data from TMDB</li>
+  </ul>
+
+  <p><strong>Result:</strong></p>
+  <pre id="output">Waiting for API response...</pre>
+
+  <script>
+    const TMDB_API_KEY = "eee0d7fd55c9dc0f1acae8b62e5c415d";
+
+    // -------------------------------------------
+    // PURPOSE:
+    // This is a simple test request:
+    // It asks TMDB for a list of popular movies.
+    // We use this endpoint because:
+    //   - It requires no special permissions
+    //   - It always returns valid predictable data
+    //   - If it works, all your other TMDB calls will work
+    // -------------------------------------------
+    const url = `https://api.themoviedb.org/3/movie/popular?api_key=${TMDB_API_KEY}`;
+
+    // PURPOSE:
+    // We fetch the URL using the browser's built-in 'fetch' API.
+    // This tests:
+    //   - network ability
+    //   - correct domain whitelisting
+    //   - valid SSL (HTTPS)
+    //   - correct API key
+    // -------------------------------------------
+    fetch(url)
+      .then(response => {
+        // PURPOSE:
+        // Check if TMDB returned an HTTP error (e.g., unauthorized).
+        if (!response.ok) {
+          throw new Error(`TMDB returned status ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        // PURPOSE:
+        // Convert JSON to readable text and show it on screen.
+        document.getElementById("output").textContent =
+          JSON.stringify(data, null, 2);
+      })
+      .catch(error => {
+        // PURPOSE:
+        // If anything goes wrong (bad domain, wrong API key, network issue),
+        // we show the error so you know exactly what failed.
+        document.getElementById("output").textContent =
+          "ERROR: " + error.message;
+      });
+  </script>
+
+</body>
+</html>
 

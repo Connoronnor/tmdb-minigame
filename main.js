@@ -17,6 +17,7 @@ document.getElementById("startGame").addEventListener("click", async () => {
 
   // STEP 2: Get a list of popular people
   const popular = await tmdb("/person/popular");
+console.log(popular);
 
   // PURPOSE: TMDB doesn't have a "popular directors" endpoint,
   // so we start with general popular people and filter down.

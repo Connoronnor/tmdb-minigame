@@ -16,6 +16,17 @@ function normalizeTitle(text) {
     .trim();                       // remove leading/trailing spaces
 }
 
+async function isFeatureFilm(movie) {
+  // Must have valid release date
+  if (!movie.release_date || movie.release_date.length < 10) return false;
+
+  // Fetch runtime (short films are usually < 40m)
+  const details = await tmdb(`movie/${movie.id}`);
+  if (!details.runtime || details.runtime < 40) return false;
+
+  return true;
+}
+
 // Fixed set of directors to seed searches
 const DIRECTOR_NAMES = [
   "Christopher Nolan",
@@ -123,9 +134,14 @@ document.getElementById("startGame").addEventListener("click", async () => {
   // Get their filmography
   const credits = await tmdb(`/person/${director.id}/movie_credits`);
   console.log(credits);
-  films = credits.crew
-    .filter(job => job.job === "Director")
-    .sort((a, b) => (a.release_date || "0") > (b.release_date || "0") ? 1 : -1);
+  films = [];
+  
+  for (const f of credits.crew.filter(c => c.job === "Director")) {
+    if (await isFeatureFilm(f)) {
+      films.push(f);
+    }
+  }
+  films.sort((a, b) => (a.release_date || "0") > (b.release_date || "0") ? 1 : -1);
 
   // Initialise score
   document.getElementById("score").textContent =

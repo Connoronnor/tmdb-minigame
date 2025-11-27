@@ -179,7 +179,7 @@ document.getElementById("submitGuess").addEventListener("click", () => {
 
 document.getElementById("startChronology").addEventListener("click", () => {
   document.getElementById("submitChronology").style.display = "block";
-  document.getElementById("guessChronology").style.display = "block";
+  document.getElementById("chronologyInput").style.display = "block";
   document.getElementById("submitGuess").style.display = "none";
   dociment.getElementById("guessInput").style.display = "none";
 });
@@ -201,7 +201,7 @@ document.getElementById("guessInput").addEventListener("keydown", (e) => {
   }
 });
 
-document.getElementById("guessChronology").addEventListener("keydown", (e) => {
+document.getElementById("chronologyInput").addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
     document.getElementById("submitChronology").style.display.click();
   }
@@ -223,7 +223,7 @@ document.getElementById("resetGame").addEventListener("click", () => {
   // Hide game area again (back to start screen)
   document.getElementById("gameArea").style.display = "none";
   document.getElementById("startChronology").style.display = "none";
-  document.getElementById("guessChronology").style.display = "none";
+  document.getElementById("chronologyInput").style.display = "none";
   document.getElementById("submitChronology").style.display = "none";
 
   console.log("Game has been reset.");

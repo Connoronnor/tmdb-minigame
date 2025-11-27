@@ -7,6 +7,10 @@ const options = {
   }
 };
 
+function removeArticles(text) {
+  return text.replace(/\b(the|a)\b/gi, '').trim();
+}
+
 // Fixed set of directors to seed searches
 const DIRECTOR_NAMES = [
   "Christopher Nolan",
@@ -123,7 +127,7 @@ document.getElementById("startGame").addEventListener("click", async () => {
 // STEP 6: Handle guesses
 document.getElementById("submitGuess").addEventListener("click", () => {
   const input = document.getElementById("guessInput");
-  const guess = input.value.trim().toLowerCase();
+  const guess = removeArticles(input.value);
   input.value = "";
 
   if (!guess) return;

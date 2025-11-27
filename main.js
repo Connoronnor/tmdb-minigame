@@ -85,6 +85,7 @@ document.getElementById("startGame").addEventListener("click", async () => {
 
   // STEP 5: Get their filmography
   const credits = await tmdb(`/person/${director.id}/movie_credits`);
+  console.log(credits);
   films = credits.crew
     .filter(job => job.job === "Director")
     .sort((a, b) => (a.release_date || "0") > (b.release_date || "0") ? 1 : -1);

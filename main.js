@@ -183,6 +183,7 @@ document.getElementById("resetGame").addEventListener("click", () => {
   document.getElementById("correctList").innerHTML = "";
   document.getElementById("directorName").textContent = "";
   document.getElementById("guessInput").value = "";
+  document.getElementById("score").textContent = "";
 
   // Hide game area again (back to start screen)
   document.getElementById("gameArea").style.display = "none";

@@ -9,11 +9,10 @@ const options = {
 
 // Utility: fetch JSON from TMDB
 async function tmdb(path) {
-  const response = await fetch('https://api.themoviedb.org/3/person/popular?language=en-US&page=1', options)
-  .then(res => res.json())
+  const response = await fetch('https://api.themoviedb.org/3/${path}?language=en-US&page=1', options)
   .then(res => console.log(res))
   .catch(err => console.error(err));
-  return response;
+  return response.json();
 }
 
 let director = null;
@@ -26,7 +25,7 @@ document.getElementById("startGame").addEventListener("click", async () => {
 
   // STEP 2: Get a list of popular people
   const popular = await tmdb("/person/popular");
-console.log(popular);
+  console.log(popular);
 
   // PURPOSE: TMDB doesn't have a "popular directors" endpoint,
   // so we start with general popular people and filter down.

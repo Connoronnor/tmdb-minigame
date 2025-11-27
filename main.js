@@ -9,7 +9,7 @@ const options = {
 
 // Utility: fetch JSON from TMDB
 async function tmdb(path) {
-  const response = await fetch('https://api.themoviedb.org/3/${path}?language=en-US&page=1', options)
+  const response = await fetch(`https://api.themoviedb.org/3/${path}?language=en-US&page=1`, options)
   .catch(err => console.error(err));
   console.log(response);
   return response.json();

@@ -30,7 +30,7 @@ document.getElementById("startGame").addEventListener("click", async () => {
   // PURPOSE: TMDB doesn't have a "popular directors" endpoint,
   // so we start with general popular people and filter down.
   const directorsOnly = popular.results.filter(p =>
-    p.known_for_department === "Directing"
+    p.known_for_department === "Acting"
   );
   console.log(directorsOnly);
 

@@ -170,6 +170,16 @@ document.getElementById("submitGuess").addEventListener("click", () => {
     document.getElementById("correctList").appendChild(li);
     document.getElementById("score").textContent =
       `Films: ${guessed.size}/${films.length}`;
+
+    if (document.getElementById("correctList").length >= 5) {
+      document.getElementById("startChronology").style.display = "block";
+    }
+  }
+});
+
+document.getElementById("guessInput").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    document.getElementById("submitGuess").click();
   }
 });
 
@@ -184,9 +194,11 @@ document.getElementById("resetGame").addEventListener("click", () => {
   document.getElementById("directorName").textContent = "";
   document.getElementById("guessInput").value = "";
   document.getElementById("score").textContent = "";
+  document.getElementById("releaseOrder").textContent = "";
 
   // Hide game area again (back to start screen)
   document.getElementById("gameArea").style.display = "none";
+  document.getElementById("startChronology").style.display = "none";
 
   console.log("Game has been reset.");
 });

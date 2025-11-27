@@ -133,7 +133,7 @@ document.getElementById("submitGuess").addEventListener("click", () => {
   if (!guess) return;
 
   // Match against film titles
-  const match = films.find(f => f.title.toLowerCase() === guess);
+  const match = films.find(f => removeArticles(f.title.toLowerCase()) === guess);
 
   if (match && !guessed.has(match.id)) {
     guessed.add(match.id);

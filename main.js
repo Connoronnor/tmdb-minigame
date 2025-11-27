@@ -7,8 +7,12 @@ const options = {
   }
 };
 
-function removeArticles(text) {
-  return text.replace(/\b(the|a)\b/gi, '').trim();
+function normalizeTitle(text) {
+  return text
+    .toLowerCase()                 // lowercase
+    .replace(/\b(the|a)\b/gi, '')  // remove articles
+    .replace(/\s+/g, ' ')          // collapse multiple spaces
+    .trim();                        // remove leading/trailing spaces
 }
 
 // Fixed set of directors to seed searches
@@ -127,13 +131,13 @@ document.getElementById("startGame").addEventListener("click", async () => {
 // STEP 6: Handle guesses
 document.getElementById("submitGuess").addEventListener("click", () => {
   const input = document.getElementById("guessInput");
-  const guess = removeArticles(input.value);
+  const guess = normalizeTitle(input.value);
   input.value = "";
 
   if (!guess) return;
 
   // Match against film titles
-  const match = films.find(f => removeArticles(f.title.toLowerCase()) === guess);
+  const match = films.find(f => normalizeTitle(f.title) === guess);
 
   if (match && !guessed.has(match.id)) {
     guessed.add(match.id);

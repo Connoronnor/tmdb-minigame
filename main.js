@@ -38,6 +38,7 @@ console.log(popular);
 
   // STEP 3: Pick one at random
   director = directorsOnly[Math.floor(Math.random() * directorsOnly.length)];
+  console.log(director);
 
   // STEP 4: Display name
   document.getElementById("directorName").textContent =

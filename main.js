@@ -69,7 +69,7 @@ async function loadDirectorPool() {
     console.log(search);
 
     // pick the top result
-    const person = search.results.[0];
+    const person = search.results?.[0];
     if (person) {
       DIRECTOR_POOL.push({
         name: person.name,

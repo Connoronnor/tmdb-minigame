@@ -171,15 +171,20 @@ document.getElementById("submitGuess").addEventListener("click", () => {
     document.getElementById("score").textContent =
       `Films: ${guessed.size}/${films.length}`;
 
-    if (document.getElementById("correctList").length >= 5) {
+    if (guessed.size >= 5) {
       document.getElementById("startChronology").style.display = "block";
+      document.getElementById("guessChronology").style.display = "block";
     }
   }
 });
 
 document.getElementById("guessInput").addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
-    document.getElementById("submitGuess").click();
+    if (document.getElementById("submitGuess".style.display !== "none"){
+      document.getElementById("submitGuess").click();
+    } else if (document.getElementById("submitChronology").style.display !== "none"){
+      document.getElementById("submitChronology").style.display.click();
+    }
   }
 });
 

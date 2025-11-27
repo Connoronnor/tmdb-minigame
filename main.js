@@ -153,7 +153,7 @@ document.getElementById("submitGuess").addEventListener("click", () => {
 
     document.getElementById("correctList").appendChild(li);
     document.getElementById("score").textContent =
-      `Films: ${guessed.length}/${films.length}`;
+      `Films: ${guessed.size}/${films.length}`;
   }
 });
 

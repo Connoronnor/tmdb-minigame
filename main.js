@@ -107,24 +107,29 @@ let director = null;
 let films = [];
 let guessed = new Set();
 
-// STEP 1: Start game
+// Start game
 document.getElementById("startGame").addEventListener("click", async () => {
   document.getElementById("gameArea").style.display = "block";
 
-  // STEP 2: Generate a director from the Director pool.
+  // Generate a director from the Director pool.
   const director = DIRECTOR_POOL[Math.floor(Math.random() * DIRECTOR_POOL.length)];
   console.log(director);
 
-  // STEP 4: Display name
+  // Display name
   document.getElementById("directorName").textContent =
     `Director: ${director.name}`;
 
-  // STEP 5: Get their filmography
+
+  // Get their filmography
   const credits = await tmdb(`/person/${director.id}/movie_credits`);
   console.log(credits);
   films = credits.crew
     .filter(job => job.job === "Director")
     .sort((a, b) => (a.release_date || "0") > (b.release_date || "0") ? 1 : -1);
+
+  // Initialise score
+  document.getElementById("score").textContent =
+    `Films: 0/${films.length}`;
 
   console.log("Filmography:", films);
 });
@@ -147,6 +152,8 @@ document.getElementById("submitGuess").addEventListener("click", () => {
     li.textContent = `${match.title} (${match.release_date?.slice(0,4) || "????"})`;
 
     document.getElementById("correctList").appendChild(li);
+    document.getElementById("score").textContent =
+      `Films: ${guessed.length}/${films.length}`;
   }
 });
 

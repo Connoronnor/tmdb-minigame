@@ -7,6 +7,59 @@ const options = {
   }
 };
 
+const DIRECTOR_POOL = [
+  { id: 488,   name: "Christopher Nolan" },
+  { id: 578,   name: "Steven Spielberg" },
+  { id: 5655,  name: "Quentin Tarantino" },
+  { id: 138,   name: "Hayao Miyazaki" },
+  { id: 192,   name: "Ridley Scott" },
+  { id: 524,   name: "Martin Scorsese" },
+  { id: 576,   name: "James Cameron" },
+  { id: 525,   name: "Tim Burton" },
+  { id: 10990, name: "Taika Waititi" },
+  { id: 7467,  name: "Greta Gerwig" },
+  { id: 6949,  name: "Jordan Peele" },
+  { id: 3090,  name: "Sofia Coppola" },
+  { id: 1032,  name: "Guillermo del Toro" },
+  { id: 108,   name: "Akira Kurosawa" },
+  { id: 106,   name: "Ingmar Bergman" },
+  { id: 1927,  name: "Bong Joon-ho" },
+  { id: 137427, name: "Chloé Zhao" },
+  { id: 6702,  name: "Lynne Ramsay" },
+  { id: 1813,  name: "Denis Villeneuve" },
+  { id: 4937,  name: "Pablo Larraín" },
+  { id: 11614, name: "Kar-Wai Wong" },
+  { id: 1183910, name: "Alice Rohrwacher" },
+  { id: 7438,  name: "Park Chan-wook" },
+  { id: 224,   name: "Lars von Trier" },
+  { id: 1077,  name: "David Fincher" },
+  { id: 494,   name: "Paul Thomas Anderson" },
+  { id: 4762,  name: "Wes Anderson" },
+  { id: 3014,  name: "Richard Linklater" },
+  { id: 1370,  name: "Pedro Almodóvar" },
+  { id: 18897, name: "Andrea Arnold" },
+  { id: 293,   name: "Werner Herzog" },
+  { id: 11423, name: "Yorgos Lanthimos" },
+  { id: 13917, name: "Kelly Reichardt" },
+  { id: 4566,  name: "Ken Loach" },
+  { id: 567,   name: "Stanley Kubrick" },
+  { id: 17444, name: "Hirokazu Kore-eda" },
+  { id: 11611, name: "Jean-Luc Godard" },
+  { id: 1636,  name: "Agnès Varda" },
+  { id: 561,   name: "Francis Ford Coppola" },
+  { id: 104,   name: "Federico Fellini" },
+  { id: 51,    name: "Alfred Hitchcock" },
+  { id: 19304, name: "Claire Denis" },
+  { id: 9588,  name: "Andrea Arnold" },
+  { id: 15865, name: "Apichatpong Weerasethakul" },
+  { id: 11008, name: "Sergio Leone" },
+  { id: 13224, name: "Krzysztof Kieślowski" },
+  { id: 4794,  name: "Jane Campion" },
+  { id: 38227, name: "Hiroshi Teshigahara" },
+  { id: 27490, name: "Lucrecia Martel" }
+];
+
+
 // Utility: fetch JSON from TMDB
 async function tmdb(path) {
   const response = await fetch(`https://api.themoviedb.org/3/${path}?language=en-US&page=1`, options)
@@ -22,19 +75,8 @@ let guessed = new Set();
 document.getElementById("startGame").addEventListener("click", async () => {
   document.getElementById("gameArea").style.display = "block";
 
-  // STEP 2: Get a list of popular people
-  const popular = await tmdb("/person/popular");
-  console.log(popular);
-
-  // PURPOSE: TMDB doesn't have a "popular directors" endpoint,
-  // so we start with general popular people and filter down.
-  const directorsOnly = popular.results.filter(p =>
-    p.known_for_department === "Acting"
-  );
-  console.log(directorsOnly);
-
-  // STEP 3: Pick one at random
-  director = directorsOnly[Math.floor(Math.random() * directorsOnly.length)];
+  // STEP 2: Generate a director from the Director pool.
+  const director = DIRECTOR_POOL[Math.floor(Math.random() * DIRECTOR_POOL.length)];
   console.log(director);
 
   // STEP 4: Display name

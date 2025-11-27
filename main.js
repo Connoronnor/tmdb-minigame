@@ -150,7 +150,7 @@ document.getElementById("startGame").addEventListener("click", async () => {
   console.log("Filmography:", films);
 });
 
-// STEP 6: Handle guesses
+// Handle guesses
 document.getElementById("submitGuess").addEventListener("click", () => {
   const input = document.getElementById("guessInput");
   const guess = normalizeTitle(input.value);
@@ -173,18 +173,37 @@ document.getElementById("submitGuess").addEventListener("click", () => {
 
     if (guessed.size >= 5) {
       document.getElementById("startChronology").style.display = "block";
-      document.getElementById("guessChronology").style.display = "block";
     }
   }
 });
 
+document.getElementById("startChronology").addEventListener("click", () => {
+  document.getElementById("submitChronology").style.display = "block";
+  document.getElementById("guessChronology").style.display = "block";
+  document.getElementById("submitGuess").style.display = "none";
+  dociment.getElementById("guessInput").style.display = "none";
+};
+
+// Handle chronology guesses
+document.getElementById("submitChronology").addEventListener("click", () => {
+  const input = document.getElementById("guessInput");
+  const guess = normalizeTitle(input.value);
+  input.value = "";
+
+  if (!guess) return;
+  
+});
+                                                            
+// Handle Enter presses
 document.getElementById("guessInput").addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
-    if (document.getElementById("submitGuess".style.display !== "none"){
-      document.getElementById("submitGuess").click();
-    } else if (document.getElementById("submitChronology").style.display !== "none"){
-      document.getElementById("submitChronology").style.display.click();
-    }
+    document.getElementById("submitGuess").click();
+  }
+});
+
+document.getElementById("guessChronology").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    document.getElementById("submitChronology").style.display.click();
   }
 });
 
@@ -199,11 +218,13 @@ document.getElementById("resetGame").addEventListener("click", () => {
   document.getElementById("directorName").textContent = "";
   document.getElementById("guessInput").value = "";
   document.getElementById("score").textContent = "";
-  document.getElementById("releaseOrder").textContent = "";
+  document.getElementById("Chronology").textContent = "";
 
   // Hide game area again (back to start screen)
   document.getElementById("gameArea").style.display = "none";
   document.getElementById("startChronology").style.display = "none";
+  document.getElementById("guessChronology").style.display = "none";
+  document.getElementById("submitChronology").style.display = "none";
 
   console.log("Game has been reset.");
 });

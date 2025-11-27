@@ -7,15 +7,13 @@ const options = {
   }
 };
 
-
-
 // Utility: fetch JSON from TMDB
 async function tmdb(path) {
   const response = await fetch('https://api.themoviedb.org/3/person/popular?language=en-US&page=1', options)
   .then(res => res.json())
   .then(res => console.log(res))
   .catch(err => console.error(err));
-  return response.json();
+  return response;
 }
 
 let director = null;

@@ -12,7 +12,8 @@ function normalizeTitle(text) {
     .toLowerCase()                 // lowercase
     .replace(/\b(the|a)\b/gi, '')  // remove articles
     .replace(/\s+/g, ' ')          // collapse multiple spaces
-    .trim();                        // remove leading/trailing spaces
+    .replace(/[^\w\s]/g, '')       // remove punctuation
+    .trim();                       // remove leading/trailing spaces
 }
 
 // Fixed set of directors to seed searches

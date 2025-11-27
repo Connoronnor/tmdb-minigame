@@ -65,7 +65,7 @@ const DIRECTOR_POOL = [];
 
 async function loadDirectorPool() {
   for (const name of DIRECTOR_NAMES) {
-    const search = await tmdb(`search/person`, `&query=${encodeURIComponent(name)}`);
+    const search = await tmdb(`search/person?query=${encodeURIComponent(name)}`);
 
     // pick the top result
     const person = search.results?.[0];

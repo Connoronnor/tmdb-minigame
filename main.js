@@ -182,7 +182,7 @@ document.getElementById("startChronology").addEventListener("click", () => {
   document.getElementById("guessChronology").style.display = "block";
   document.getElementById("submitGuess").style.display = "none";
   dociment.getElementById("guessInput").style.display = "none";
-};
+});
 
 // Handle chronology guesses
 document.getElementById("submitChronology").addEventListener("click", () => {

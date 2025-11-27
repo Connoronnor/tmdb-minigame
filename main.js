@@ -141,3 +141,20 @@ document.getElementById("submitGuess").addEventListener("click", () => {
   }
 });
 
+document.getElementById("resetGame").addEventListener("click", () => {
+  // Clear data
+  films = [];
+  guessed.clear();
+  director = null;
+
+  // Clear UI
+  document.getElementById("correctList").innerHTML = "";
+  document.getElementById("directorName").textContent = "";
+  document.getElementById("guessInput").value = "";
+
+  // Hide game area again (back to start screen)
+  document.getElementById("gameArea").style.display = "none";
+
+  console.log("Game has been reset.");
+});
+

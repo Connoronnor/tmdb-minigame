@@ -165,7 +165,7 @@ document.getElementById("submitGuess").addEventListener("click", () => {
     guessed.add(match.id);
 
     const li = document.createElement("li");
-    li.textContent = `${match.title} (${match.release_date?.slice(0,4) || "????"})`;
+    li.textContent = `${match.title}`;
 
     document.getElementById("correctList").appendChild(li);
     document.getElementById("score").textContent =

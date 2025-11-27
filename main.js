@@ -35,6 +35,7 @@ console.log(popular);
   const directorsOnly = popular.results.filter(p =>
     p.known_for_department === "Directing"
   );
+  console.log(directorsOnly);
 
   // STEP 3: Pick one at random
   director = directorsOnly[Math.floor(Math.random() * directorsOnly.length)];

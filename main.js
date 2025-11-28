@@ -27,6 +27,10 @@ async function isFeatureFilm(movie) {
   return true;
 }
 
+function posterUrl(path) {
+  return path ? `https://image.tmdb.org/t/p/w185${path}` : "placeholder.png";
+}
+
 // Fixed set of directors to seed searches
 const DIRECTOR_NAMES = [
   "Christopher Nolan",

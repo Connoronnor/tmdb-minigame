@@ -121,6 +121,8 @@ async function loadDirectorPool() {
   }
 
   console.log("DIRECTOR_POOL loaded:", DIRECTOR_POOL);
+  document.getElementById("loadingText").style.display = "none";
+  document.getElementById("startGame").style.display = "block";
 }
 
 

@@ -227,6 +227,10 @@ document.getElementById("submitChronology").addEventListener("click", () => {
     .sort((a, b) => (a.release_date || "0").localeCompare(b.release_date || "0"))
     .map(f => f.id);
 
+
+  
+  console.log(JSON.stringify(ordered));
+  console.log(JSON.stringify(correctOrder));
   const isCorrect = JSON.stringify(ordered) === JSON.stringify(correctOrder);
 
   alert(isCorrect ? "Correct chronology!" : "Incorrect — try again.");

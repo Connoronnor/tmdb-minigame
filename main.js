@@ -7,6 +7,22 @@ const options = {
   }
 };
 
+function shuffle(array) {
+  let currentIndex = array.length;
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+
+    // Pick a remaining element...
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+}
+
 function normalizeTitle(text) {
   return text
     .toLowerCase()                 // lowercase
@@ -198,6 +214,7 @@ document.getElementById("startChronology").addEventListener("click", () => {
 
   // Populate chronology grid with posters for all guessed films
   const guessedFilms = films.filter(f => guessed.has(f.id));
+  shuffle(guessedFilms);
 
   guessedFilms.forEach(f => {
     const card = document.createElement("div");
@@ -231,7 +248,7 @@ document.getElementById("submitChronology").addEventListener("click", () => {
   
   console.log(JSON.stringify(ordered));
   console.log(JSON.stringify(correctOrder));
-  const isCorrect = JSON.stringify(ordered) === JSON.stringify(correctOrder);
+  const isCorrect = JSON.stringify(ordered).replace(/['"]+/g, '') === JSON.stringify(correctOrder);
 
   alert(isCorrect ? "Correct chronology!" : "Incorrect — try again.");
 });

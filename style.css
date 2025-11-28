@@ -1,1 +1,18 @@
+.filmGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 120px);
+  gap: 12px;
+  margin-top: 20px;
+}
 
+.filmCard {
+  width: 120px;
+  text-align: center;
+  font-size: 13px;
+}
+
+.filmCard img {
+  width: 120px;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}

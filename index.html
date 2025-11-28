@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <title>The Filmography Game</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+
 </head>
 <body>
   <h1>Director Filmography Game</h1>
@@ -21,12 +23,17 @@
     <button id="resetGame">Reset</button>
     <p id="score"></p>
 
-    <ul id="correctList"></ul>
+    <!-- Correct films grid -->
+    <div id="filmGrid" class="filmGrid"></div>
     
     <button id="startChronology" style="display:none;">Guess Release Order?</button>
     <input id="chronologyInput" style = "display:none;" type="text" placeholder="Which film came first?" />
-    <button id="submitChronology" style = "display:none;">Submit</button>
-    <ul id="Chronology"></ul>
+    <!-- Chronology section (hidden until triggered) -->
+    <div id="chronologySection" style="display:none;">
+      <h3>Arrange these films by release order:</h3>
+      <div id="chronologyGrid" class="filmGrid"></div>
+      <button id="submitChronology">Submit Chronology</button>
+    </div>
   </div>
 
   <script src="main.js"></script>

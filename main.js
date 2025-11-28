@@ -164,10 +164,18 @@ document.getElementById("submitGuess").addEventListener("click", () => {
   if (match && !guessed.has(match.id)) {
     guessed.add(match.id);
 
-    const li = document.createElement("li");
-    li.textContent = `${match.title}`;
+    const grid = document.getElementById("filmGrid");
 
-    document.getElementById("correctList").appendChild(li);
+    const card = document.createElement("div");
+    card.className = "filmCard";
+    card.dataset.id = match.id;
+
+    card.innerHTML = `
+      <img src="${posterUrl(match.poster_path)}" alt="${match.title}">
+      <p>${match.title}</p>
+    `;
+
+    grid.appendChild(card);
     document.getElementById("score").textContent =
       `Films: ${guessed.size}/${films.length}`;
 
@@ -178,20 +186,46 @@ document.getElementById("submitGuess").addEventListener("click", () => {
 });
 
 document.getElementById("startChronology").addEventListener("click", () => {
-  document.getElementById("submitChronology").style.display = "block";
-  document.getElementById("chronologyInput").style.display = "block";
-  document.getElementById("submitGuess").style.display = "none";
-  dociment.getElementById("guessInput").style.display = "none";
+  const section = document.getElementById("chronologySection");
+  const grid = document.getElementById("chronologyGrid");
+
+  section.style.display = "block";
+  grid.innerHTML = "";
+
+  // Populate chronology grid with posters for all guessed films
+  const guessedFilms = films.filter(f => guessed.has(f.id));
+
+  guessedFilms.forEach(f => {
+    const card = document.createElement("div");
+    card.className = "filmCard";
+    card.dataset.id = f.id;
+
+    card.innerHTML = `
+      <img src="${posterUrl(f.poster_path)}" alt="${f.title}">
+      <p>${f.title}</p>
+    `;
+    grid.appendChild(card);
+  });
+
+  // Enable drag + drop
+  Sortable.create(grid, {
+    animation: 150,
+  });
 });
 
 // Handle chronology guesses
 document.getElementById("submitChronology").addEventListener("click", () => {
-  const input = document.getElementById("guessInput");
-  const guess = normalizeTitle(input.value);
-  input.value = "";
+  const grid = document.getElementById("chronologyGrid");
+  const ordered = [...grid.children].map(el => el.dataset.id);
 
-  if (!guess) return;
-  
+  const correctOrder = films
+    .filter(f => guessed.has(f.id))
+    .sort((a, b) => (a.release_date || "0").localeCompare(b.release_date || "0"))
+    .map(f => f.id);
+
+  const isCorrect = JSON.stringify(ordered) === JSON.stringify(correctOrder);
+
+  alert(isCorrect ? "Correct chronology!" : "Incorrect — try again.");
 });
                                                             
 // Handle Enter presses

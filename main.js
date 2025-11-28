@@ -246,24 +246,28 @@ document.getElementById("chronologyInput").addEventListener("keydown", (e) => {
 });
 
 document.getElementById("resetGame").addEventListener("click", () => {
-  // Clear data
+  // Reset game state
   films = [];
   guessed.clear();
   director = null;
 
-  // Clear UI
-  document.getElementById("correctList").innerHTML = "";
+  // Reset UI
+  document.getElementById("filmGrid").innerHTML = "";          
   document.getElementById("directorName").textContent = "";
   document.getElementById("guessInput").value = "";
   document.getElementById("score").textContent = "";
-  document.getElementById("Chronology").textContent = "";
+  
+  // Chronology section
+  document.getElementById("chronologyGrid").innerHTML = "";
+  document.getElementById("chronologySection").style.display = "none";
 
-  // Hide game area again (back to start screen)
-  document.getElementById("gameArea").style.display = "none";
+  // Hide bonus button
   document.getElementById("startChronology").style.display = "none";
-  document.getElementById("chronologyInput").style.display = "none";
-  document.getElementById("submitChronology").style.display = "none";
+
+  // Return to start screen
+  document.getElementById("gameArea").style.display = "none";
 
   console.log("Game has been reset.");
 });
+
 

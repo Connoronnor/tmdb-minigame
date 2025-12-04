@@ -7,20 +7,47 @@ const options = {
   }
 };
 
-function loadChallengeIfPresent() {
-  const hash = window.location.hash;
-  if (!hash.startsWith("#challenge=")) return null;
+function encodeData(obj) {
+  const json = JSON.stringify(obj);
+  return LZString.compressToEncodedURIComponent(json);
+}
 
-  const encoded = hash.replace("#challenge=", "");
+function decodeData(str) {
+  const json = LZString.decompressFromEncodedURIComponent(str);
+  return JSON.parse(json);
+}
 
+async function loadChallengeFromURL() {
+  const hash = window.location.hash.replace("#", "");
+  if (!hash) return false;
+
+  let data;
   try {
-    const json = decodeURIComponent(atob(encoded));
-    const challenge = JSON.parse(json);
-    return challenge;
-  } catch (err) {
-    console.error("Invalid challenge link:", err);
-    return null;
+    data = decodeData(hash);
+  } catch (e) {
+    console.error("Failed to decode challenge:", e);
+    return false;
   }
+
+  // Expected fields: data.d = directorId, data.g = guessedFilmIds
+  director = { id: data.d };  // you will fill the name after fetching
+  
+  // Fetch director full info
+  const person = await tmdb(`person/${director.id}`);
+  director.name = person.name;
+
+  // Fetch filmography
+  const credits = await tmdb(`person/${director.id}/movie_credits`);
+  films = credits.crew
+    .filter(job => job.job === "Director")
+    .sort((a, b) =>
+      (a.release_date || "0").localeCompare(b.release_date || "0")
+    );
+
+  // Restore guessed set
+  guessed = new Set(data.g);
+
+  return true;
 }
 
 function shuffle(array) {
@@ -192,10 +219,25 @@ let director = null;
 let films = [];
 let guessed = new Set();
 
-const challengeData = loadChallengeIfPresent();
-if (challengeData) {
-  startChallengeMode(challengeData);
-}
+window.addEventListener("load", async () => {
+  const loaded = await loadChallengeFromURL();
+  if (loaded) {
+    // Update UI…
+    document.getElementById("gameArea").style.display = "block";
+    document.getElementById("directorName").textContent =
+      `Director: ${director.name}`;
+    
+    document.getElementById("score").textContent =
+      `Films: ${guessed.size}/${films.length}`;
+
+    // Add guessed posters to the grid
+    for (const film of films) {
+      if (guessed.has(film.id)) {
+        addFilmPosterToGrid(film); // your existing function
+      }
+    }
+  }
+});
 
 // Start game
 document.getElementById("startGame").addEventListener("click", async () => {

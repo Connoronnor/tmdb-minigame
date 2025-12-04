@@ -202,7 +202,7 @@ document.getElementById("startGame").addEventListener("click", async () => {
   document.getElementById("gameArea").style.display = "block";
 
   // Generate a director from the Director pool.
-  const director = DIRECTOR_POOL[Math.floor(Math.random() * DIRECTOR_POOL.length)];
+  director = DIRECTOR_POOL[Math.floor(Math.random() * DIRECTOR_POOL.length)];
   console.log(director);
 
   // Display name

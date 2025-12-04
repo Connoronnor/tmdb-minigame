@@ -7,6 +7,22 @@ const options = {
   }
 };
 
+function loadChallengeIfPresent() {
+  const hash = window.location.hash;
+  if (!hash.startsWith("#challenge=")) return null;
+
+  const encoded = hash.replace("#challenge=", "");
+
+  try {
+    const json = decodeURIComponent(atob(encoded));
+    const challenge = JSON.parse(json);
+    return challenge;
+  } catch (err) {
+    console.error("Invalid challenge link:", err);
+    return null;
+  }
+}
+
 function shuffle(array) {
   let currentIndex = array.length;
 
@@ -45,6 +61,43 @@ async function isFeatureFilm(movie) {
 
 function posterUrl(path) {
   return path ? `https://image.tmdb.org/t/p/w185${path}` : "placeholder.png";
+}
+
+function createChallengeData() {
+  const data = {
+    directorId: director.id,
+    guessed: Array.from(guessed),  // all film IDs the user guessed
+    films: films.map(f => ({
+      id: f.id,
+      title: f.title,
+      release_date: f.release_date,
+      poster_path: f.poster_path
+    })),
+    score: guessed.size
+  };
+
+  // Convert → JSON → Base64 (URL safe)
+  const json = JSON.stringify(data);
+  return btoa(encodeURIComponent(json));
+}
+
+function startChallengeMode(challenge) {
+  // preload everything
+  director = { id: challenge.directorId };
+
+  films = challenge.films;
+  guessed = new Set(); // challenger starts fresh
+
+  document.getElementById("loadingText").style.display = "none";
+  document.getElementById("gameArea").style.display = "block";
+
+  document.getElementById("directorName").textContent =
+    `Beat their score! (They got ${challenge.score})`;
+
+  // Show the usual guess UI, but no need to auto-fill anything
+  updateScore();
+
+  console.log("Challenge mode loaded:", challenge);
 }
 
 // Fixed set of directors to seed searches
@@ -99,8 +152,7 @@ const DIRECTOR_NAMES = [
   "Lucrecia Martel"
 ];
 
-// PURPOSE: Convert each name into a TMDB person ID.
-// We search TMDB directly because name → ID mappings are inconsistent.
+// Convert each name into a TMDB person ID.
 const DIRECTOR_POOL = [];
 
 async function loadDirectorPool() {
@@ -139,6 +191,11 @@ loadDirectorPool();
 let director = null;
 let films = [];
 let guessed = new Set();
+
+const challengeData = loadChallengeIfPresent();
+if (challengeData) {
+  startChallengeMode(challengeData);
+}
 
 // Start game
 document.getElementById("startGame").addEventListener("click", async () => {
@@ -200,6 +257,8 @@ document.getElementById("submitGuess").addEventListener("click", () => {
     grid.appendChild(card);
     document.getElementById("score").textContent =
       `Films: ${guessed.size}/${films.length}`;
+    
+    document.getElementById("createChallenge").style.display = "inline-block";
 
     if (guessed.size >= 5) {
       document.getElementById("startChronology").style.display = "block";
@@ -293,4 +352,13 @@ document.getElementById("resetGame").addEventListener("click", () => {
   console.log("Game has been reset.");
 });
 
+document.getElementById("createChallenge").addEventListener("click", () => {
+  const encoded = createChallengeData();
+  const challengeURL = `${window.location.origin}${window.location.pathname}#challenge=${encoded}`;
 
+  const linkElement = document.getElementById("challengeLink");
+  linkElement.textContent = challengeURL;
+  linkElement.style.display = "block";
+
+  console.log("Challenge link created:", challengeURL);
+});
